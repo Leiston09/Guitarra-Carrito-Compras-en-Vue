@@ -3,7 +3,7 @@
         <div class="col-4">
             <img 
                 class="img-fluid" 
-                v-bind:src=" '/img/' + guitarra.imagen + '.jpg'" 
+                v-bind:src=" '/img/' + guitarra.imagen + '.jpg' " 
                 v-bind:alt="'imagen guitarra' + guitarra.nombre"
             >
         </div>
@@ -28,7 +28,7 @@
             required: true
         }
     })
-    
+
     const emits = defineEmits(['agregarCarrito'])
 
 </script>
