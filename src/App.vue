@@ -1,23 +1,27 @@
 <template>
-    <headers
+    <Headers
         v-bind:carrito ="carrito"
+        v-bind:guitarraPortada="guitarraPortada"
         @restar-cantidad="restarCantidad"
         @sumar-cantidad="sumarCantidad"
+        @agregar-carrito="agregarCarrito"
+        @eliminar-producto="eliminarPorducto"
+        @vaciar-carrito="vaciarCarro"
     />
 
     <main class="container-xl mt-5">
-        <h2 class="text-center">Nuestra Colección</h2>
+        <h2 class="text-center">Nuestra Colección - Leiston Holguin</h2>
 
         <div class="row mt-5">
-           <guitarra
-             v-for="guitarra in guitarras"   
-             v-bind:guitarra = "guitarra"
-             @agregar-carrito="agregarCarrito"
+           <Guitarra
+                v-for="guitarra in guitarras"   
+                v-bind:guitarra = "guitarra"
+                @agregar-carrito="agregarCarrito"
            /> 
         </div>
     </main>
 
-    <footers
+    <Footers
     
     />
 
@@ -26,24 +30,35 @@
 
 <script setup>
 
-import {ref , reactive , onMounted} from "vue"
+import {ref , onMounted , watch} from "vue"
 import { db } from "./data/guitarras";
-import guitarra from "./components/guitarra.vue";
-import headers from "./components/headers.vue";
-import footers from "./components/footers.vue";
-
-//const state = reactive({
-//    guitarra : db,
-//})
-
+import Guitarra from "./components/Guitarra.vue";
+import Headers from "./components/Headers.vue";
+import Footers from "./components/Footers.vue";
 
     const guitarras = ref([])
     const carrito = ref([])
+    const guitarraPortada = ref([])
+
+    watch(carrito, () => {
+        guardarLocalStore()
+    } , {
+        deep:true
+    })
 
     onMounted(function(){
         guitarras.value = db
+        guitarraPortada.value = db[3]
+        const carritoStorage = localStorage.getItem('carrito')
+        if(carritoStorage) {
+            carrito.value = JSON.parse(carritoStorage)
+        }
+
     })
 
+    const guardarLocalStore = () => { 
+        localStorage.setItem('carrito' , JSON.stringify(carrito.value))
+    }
 
     const agregarCarrito = (guitarra) => {
         const existencia = carrito.value.findIndex(carrito => carrito.id === guitarra.id)
@@ -54,6 +69,8 @@ import footers from "./components/footers.vue";
             guitarra.cantidad = 1
             carrito.value.push(guitarra)
         }
+
+        guardarLocalStore()
 
     }
 
@@ -69,6 +86,16 @@ import footers from "./components/footers.vue";
         carrito.value[posicionSuma].cantidad++
 
     }
+
+    const eliminarPorducto = (id) => {
+        carrito.value = carrito.value.filter(guitarra => guitarra.id !== id)
+    }
+
+    const vaciarCarro = () => {
+        //carrito.value = carrito.value.filter(guitarra => guitarra.id === -1)
+        carrito.value = []
+    }
+
 </script>
 
 <style   scoped>
