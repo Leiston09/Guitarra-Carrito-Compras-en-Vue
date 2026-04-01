@@ -1,5 +1,5 @@
 <template>
-    <Headers
+    <Header
         v-bind:carrito ="carrito"
         v-bind:guitarraPortada="guitarraPortada"
         @restar-cantidad="restarCantidad"
@@ -21,7 +21,7 @@
         </div>
     </main>
 
-    <Footers
+    <Footer
     
     />
 
@@ -32,9 +32,9 @@
 
 import {ref , onMounted , watch} from "vue"
 import { db } from "./data/guitarras";
-import Headers from "./components/Headers.vue";
-import Footers from "./components/Footers.vue";
 import Guitarras from "./components/Guitarras.vue";
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 
     const guitarras = ref([])
     const carrito = ref([])
