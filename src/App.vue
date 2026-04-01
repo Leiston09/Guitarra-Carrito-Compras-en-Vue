@@ -13,7 +13,7 @@
         <h2 class="text-center">Nuestra Colección - Leiston Holguin</h2>
 
         <div class="row mt-5">
-           <Guitarra
+           <Guitarras
                 v-for="guitarra in guitarras"   
                 v-bind:guitarra = "guitarra"
                 @agregar-carrito="agregarCarrito"
@@ -32,9 +32,9 @@
 
 import {ref , onMounted , watch} from "vue"
 import { db } from "./data/guitarras";
-import Guitarra from "./components/Guitarra.vue";
 import Headers from "./components/Headers.vue";
 import Footers from "./components/Footers.vue";
+import Guitarras from "./components/Guitarras.vue";
 
     const guitarras = ref([])
     const carrito = ref([])
@@ -69,9 +69,7 @@ import Footers from "./components/Footers.vue";
             guitarra.cantidad = 1
             carrito.value.push(guitarra)
         }
-
         guardarLocalStore()
-
     }
 
     const restarCantidad = (id) => {

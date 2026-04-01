@@ -120,7 +120,6 @@
     defineEmits(['restar-cantidad' , 'sumar-cantidad' , 'agregar-carrito', 'eliminar-producto', 'vaciar-carrito'])
 
     const totalPagar = computed(() => {
-
         return props.carrito.reduce((total, elemento) => total + (elemento.cantidad * elemento.precio), 0)
     })
 
